@@ -14,3 +14,7 @@ npm run lint
 
 # Format with prettier
 npm run format
+
+# To create a controller using the CLI
+nest g controller [name]
+
