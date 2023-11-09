@@ -50,5 +50,29 @@ export interface Cat {
   breed: string;
 }
 ```
+이제 우리는 cats를 검색하기위해 service클래스를 가졌다, CatsController안에서 사용해보자.
 
+```
+-cats.controller.ts
 
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { CatsService } from './cats.service';
+import { Cat } from './interfaces/cat.interface';
+
+@Controller('cats')
+export class CatsController {
+  constructor(private catsService: CatsService) {}
+
+  @Post()
+  async create(@Body() createCatDto: CreateCatDto) {
+    this.catsService.create(createCatDto);
+  }
+
+  @Get()
+  async findAll(): Promise<Cat[]> {
+    return this.catsService.findAll();
+  }
+}
+```
+CatsService는 constructor클래스를 통해 주입되었다. private 문법을 사용하는데 주목하라. 이것은 

@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Header, Param, Post, Query, Redirect, Req } from '@nestjs/common';
+import { Body, Controller, Get, Header, HttpCode, Param, Post, Query, Redirect, Req } from '@nestjs/common';
 import { CreateCatDto } from './create-cat.dto';
+import { CatsService } from './cats.service';
+import { Cat } from './interfaces/cat.interface';
 
 @Controller('cats')
 export class CatsController {
+    constructor(private catsService: CatsService){}
     /**
      * To specify a custom response header, you can either use a @Header() decorator or a library-specific response object 
      */
@@ -10,17 +13,17 @@ export class CatsController {
     @Header('Cache-Control', 'none')
     async create(@Body() createCatDto: CreateCatDto) {
         console.log(createCatDto);
-        return 'This action adds a new cat';
+        return this.catsService.create(createCatDto);
     }
 
     /**
      * As mentioned, the response status code is always 200 by default, except for POST requests which are 201. We can easily change this behavior by adding the @HttpCode(...) decorator at a handler level. 
      */
     @Get()
-    // @HttpCode(222)
-    findAll(@Req() request: Request): string {
+    @HttpCode(222)
+    async findAll(@Req() request: Request): Promise<Cat[]> {
         console.log(request);
-        return 'This action returns all cats';
+        return this.catsService.findAll();
     }
 
     /**
