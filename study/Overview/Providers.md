@@ -110,3 +110,18 @@ export class HttpService<T> {
   constructor(@Optional() @Inject('HTTP_OPTIONS') private httpClient: T) {}
 }
 ```
+
+Property-based injection
+---
+providers가 constructor를 경유하여 주입된거 같은 기술은 constructor-based injection이라고 불린다. 몇몇 특별한 케이스에서 property-based injection은 유용하다. 예로 만일 너의 top-level class가 하나 혹은 여러개의 providers에 의존하고있다면, constructor로부터 sub-class에 super()를 부르는 방법은 매우 지루할 수 있다. 이것을 피하기 위하여, 너는 @Inject() decorator를 사용할 수 있다. 
+
+```
+import { Injectable, Inject } from '@nestjs/common';
+
+@Injectable()
+export class HttpService<T> {
+  @Inject('HTTP_OPTIONS')
+  private readonly httpClient: T;
+}
+```
+
