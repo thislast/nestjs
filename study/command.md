@@ -22,6 +22,6 @@ nest g controller [name]
 nest g service [name]
 
 d
-d
+ddd
 d
 d
